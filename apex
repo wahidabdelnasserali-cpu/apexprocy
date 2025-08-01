@@ -1,15 +1,11 @@
 export default {
   async fetch(request) {
-    const url = new URL(request.url);
+    // The target APEX URL
+    let targetBase = "https://g1800f0c7a9a451-ecosystem01.adb.me-dubai-1.oraclecloudapps.com/ords/r/ecosystem/ecosystembeta107";
 
-    // Oracle APEX hostname
-    url.hostname = "g1800f0c7a9a451-ecosystem01.adb.me-dubai-1.oraclecloudapps.com";
+    let url = new URL(request.url);
+    let targetUrl = new URL(targetBase + url.pathname + url.search);
 
-    // Add APEX app path
-    url.pathname = "/ords/r/ecosystem/ecosystembeta107" + url.pathname;
-
-    // Forward request (keeps query params & headers)
-    return fetch(url.toString(), request);
+    return fetch(new Request(targetUrl, request));
   }
 }
-
